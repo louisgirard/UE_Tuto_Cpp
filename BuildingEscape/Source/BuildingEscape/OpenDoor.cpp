@@ -3,6 +3,10 @@
 
 #include "OpenDoor.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Pawn.h"
+#include "Engine/TriggerVolume.h"
+#include "Engine/World.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -29,13 +33,20 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// Calculate new rotation
+	
+	// Check Pressure Plate Overlapping
+	if (PressurePlate && PressurePlate->IsOverlappingActor(GetWorld()->GetFirstPlayerController()->GetPawn()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Opening door"));
+		OpenDoor(DeltaTime);
+	}
+}
+
+void UOpenDoor::OpenDoor(float deltaTime)
+{
 	float currentYaw = GetOwner()->GetActorRotation().Yaw;
-	float newYaw = FMath::FInterpConstantTo(currentYaw, StartingRotation.Yaw + TargetYaw, DeltaTime, OpeningSpeed);
+	float newYaw = FMath::FInterpConstantTo(currentYaw, StartingRotation.Yaw + TargetYaw, deltaTime, OpeningSpeed);
 	FRotator newRotation{ 0, newYaw, 0 };
 
 	GetOwner()->SetActorRotation(newRotation);
-
-	UE_LOG(LogTemp, Warning, TEXT("Yaw: %f"), GetOwner()->GetActorRotation().Yaw);
 }
-
