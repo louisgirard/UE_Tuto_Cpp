@@ -25,7 +25,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	void MoveDoor(float deltaTime, float targetYaw);
+	void OpenDoor(float deltaTime);
+	void CloseDoor(float deltaTime);
 
 	UPROPERTY(EditAnywhere)
 	float TargetYaw = -90.0f;
@@ -34,8 +35,16 @@ private:
 	float OpeningSpeed = 45.0f;
 
 	UPROPERTY(EditAnywhere)
+	float ClosingSpeed = 80.0f;
+
+	UPROPERTY(EditAnywhere)
 	class ATriggerVolume* PressurePlate;
 
 	FRotator StartingRotation;
+
+	float DoorLastOpened = 0.f;
+
+	UPROPERTY(EditAnywhere)
+	float DoorCloseDelay = 2.f;
 
 };
