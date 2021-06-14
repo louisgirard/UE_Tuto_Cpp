@@ -27,6 +27,7 @@ public:
 private:
 	void OpenDoor(float deltaTime);
 	void CloseDoor(float deltaTime);
+	bool MassReached();
 
 	UPROPERTY(EditAnywhere)
 	float TargetYaw = -90.0f;
@@ -47,4 +48,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float DoorCloseDelay = 2.f;
 
+	UPROPERTY(EditAnywhere)
+	float MassRequired = 20.f;
 };

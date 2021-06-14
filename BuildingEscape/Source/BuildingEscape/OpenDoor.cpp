@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "Engine/TriggerVolume.h"
 #include "Engine/World.h"
+#include "Components/PrimitiveComponent.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -14,8 +15,6 @@ UOpenDoor::UOpenDoor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -33,9 +32,8 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	
 	// Check Pressure Plate Overlapping
-	if (PressurePlate && PressurePlate->IsOverlappingActor(GetWorld()->GetFirstPlayerController()->GetPawn()))
+	if (PressurePlate && MassReached())
 	{
 		OpenDoor(DeltaTime);
 		DoorLastOpened = GetWorld()->GetTimeSeconds();
@@ -64,4 +62,26 @@ void UOpenDoor::CloseDoor(float deltaTime)
 	FRotator newRotation{ 0, newYaw, 0 };
 
 	GetOwner()->SetActorRotation(newRotation);
+}
+
+bool UOpenDoor::MassReached()
+{
+	float currentMass = 0.0f;
+
+	TArray<AActor*> overlappingActors;
+	PressurePlate->GetOverlappingActors(overlappingActors);
+
+	// for each actor, sum the mass of their components
+	for (auto actor : overlappingActors)
+	{
+		TArray<UPrimitiveComponent*> components;
+		actor->GetComponents(components);
+
+		for (auto component : components)
+		{
+			currentMass += component->GetMass();
+		}
+	}
+
+	return currentMass >= MassRequired;
 }
