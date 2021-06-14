@@ -6,6 +6,8 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "CollisionQueryParams.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -22,6 +24,14 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (!PhysicsHandle)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Physics handle missing on %s"), *GetOwner()->GetName());
+	}
+
+	GetOwner()->InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
 }
 
 
@@ -58,5 +68,10 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Raycast hit an object: %s"), *hit.Actor->GetName());
 	}
+}
+
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grab object"));
 }
 
