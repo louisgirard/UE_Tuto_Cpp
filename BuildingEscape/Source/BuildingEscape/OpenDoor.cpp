@@ -8,6 +8,7 @@
 #include "Engine/TriggerVolume.h"
 #include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
+#include "Components/AudioComponent.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -24,6 +25,11 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	StartingRotation = GetOwner()->GetActorRotation();
+	DoorAudio = GetOwner()->FindComponentByClass<UAudioComponent>();
+	if (!DoorAudio)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Audio component missing on %s"), *GetOwner()->GetName());
+	}
 }
 
 
@@ -47,6 +53,13 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 void UOpenDoor::OpenDoor(float deltaTime)
 {
+	CloseSoundPlayed = false;
+	if (!DoorAudio->IsPlaying() && !OpenSoundPlayed)
+	{
+		DoorAudio->Play();
+		OpenSoundPlayed = true;
+	}
+
 	float currentYaw = GetOwner()->GetActorRotation().Yaw;
 	float newYaw = FMath::FInterpConstantTo(currentYaw, StartingRotation.Yaw + TargetYaw, deltaTime, OpeningSpeed);
 	FRotator newRotation{ 0, newYaw, 0 };
@@ -57,6 +70,13 @@ void UOpenDoor::OpenDoor(float deltaTime)
 
 void UOpenDoor::CloseDoor(float deltaTime)
 {
+	OpenSoundPlayed = false;
+	if (!DoorAudio->IsPlaying() && !CloseSoundPlayed)
+	{
+		DoorAudio->Play();
+		CloseSoundPlayed = true;
+	}
+
 	float currentYaw = GetOwner()->GetActorRotation().Yaw;
 	float newYaw = FMath::FInterpConstantTo(currentYaw, StartingRotation.Yaw, deltaTime, ClosingSpeed);
 	FRotator newRotation{ 0, newYaw, 0 };

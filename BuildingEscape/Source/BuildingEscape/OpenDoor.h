@@ -44,10 +44,14 @@ private:
 	FRotator StartingRotation;
 
 	float DoorLastOpened = 0.f;
+	bool OpenSoundPlayed = false;
+	bool CloseSoundPlayed = true;
 
 	UPROPERTY(EditAnywhere)
 	float DoorCloseDelay = 2.f;
 
 	UPROPERTY(EditAnywhere)
 	float MassRequired = 20.f;
+
+	class UAudioComponent* DoorAudio = nullptr;
 };
