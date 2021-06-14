@@ -31,4 +31,9 @@ private:
 	class UPhysicsHandleComponent* PhysicsHandle = nullptr;
 
 	void Grab();
+	void Release();
+
+	FHitResult GetPhysicsBodyInReach();
+
+	FVector GetLineTraceEnd();
 };
