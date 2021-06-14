@@ -2,6 +2,10 @@
 
 
 #include "Grabber.h"
+#include "GameFramework/PlayerController.h"
+#include "Engine/World.h"
+#include "DrawDebugHelpers.h"
+#include "CollisionQueryParams.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -18,9 +22,6 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -29,6 +30,33 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	FVector playerLocation;
+	FRotator playerRotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(playerLocation, playerRotation);
+
+	FVector lineTraceEnding = playerRotation.Vector() * Reach + playerLocation;
+
+	DrawDebugLine
+	(
+		GetWorld(),
+		playerLocation,
+		lineTraceEnding,
+		FColor::Red,
+		false,
+		0.f,
+		0,
+		5.f
+	);
+
+	FHitResult hit;
+	if (GetWorld()->LineTraceSingleByObjectType(
+		hit,
+		playerLocation,
+		lineTraceEnding,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody)
+	))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Raycast hit an object: %s"), *hit.Actor->GetName());
+	}
 }
 
