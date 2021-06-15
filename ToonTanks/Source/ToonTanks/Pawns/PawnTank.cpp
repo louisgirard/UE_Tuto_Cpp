@@ -49,13 +49,11 @@ void APawnTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void APawnTank::CalculateMoveDirection(float value)
 {
 	MoveDirection = FVector(value * MoveSpeed * GetWorld()->DeltaTimeSeconds, 0, 0);
-	UE_LOG(LogTemp, Warning, TEXT("MoveForward value: %f"), value);
 }
 
 void APawnTank::CalculateRotationDirection(float value)
 {
 	RotationDirection = FQuat(FRotator(0, value * RotateSpeed * GetWorld()->DeltaTimeSeconds, 0));
-	UE_LOG(LogTemp, Warning, TEXT("Turn value: %f"), value);
 }
 
 void APawnTank::Move()

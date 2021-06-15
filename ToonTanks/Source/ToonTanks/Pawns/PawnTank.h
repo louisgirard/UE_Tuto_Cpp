@@ -21,11 +21,11 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArm;
 
-	UPROPERTY(EditAnywhere)
-	float MoveSpeed = 20.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	float MoveSpeed = 600.f;
 
-	UPROPERTY(EditAnywhere)
-	float RotateSpeed = 20.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	float RotateSpeed = 100.f;
 
 	FVector MoveDirection;
 	FQuat RotationDirection;
