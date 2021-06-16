@@ -24,6 +24,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage", meta = (AllowPrivateAccess = "true"))
 	float Damage = 10.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	float ProjectileSpeed = 1200.f;
+
 public:	
 	// Sets default values for this actor's properties
 	AProjectileBase();

@@ -15,6 +15,8 @@ AProjectileBase::AProjectileBase()
 	RootComponent = ProjectileMesh;
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
+	ProjectileMovement->InitialSpeed = ProjectileSpeed;
+	ProjectileMovement->MaxSpeed = ProjectileSpeed;
 
 	InitialLifeSpan = 3.f;
 }
