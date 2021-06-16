@@ -29,6 +29,7 @@ void APawnTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	Super::RotateTurret(PawnTank->GetActorLocation());
 }
 
 void APawnTurret::CheckTargetInRange()
