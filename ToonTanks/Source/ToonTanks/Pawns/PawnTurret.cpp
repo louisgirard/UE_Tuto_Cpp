@@ -29,7 +29,7 @@ void APawnTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	Super::RotateTurret(PawnTank->GetActorLocation());
+	RotateTurret(PawnTank->GetActorLocation());
 }
 
 void APawnTurret::CheckTargetInRange()
@@ -40,6 +40,12 @@ void APawnTurret::CheckTargetInRange()
 	
 	if (distanceWithTarget <= FireRange)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Fire"));
+		Fire();
 	}
+}
+
+void APawnTurret::Destruction()
+{
+	Super::Destruction();
+	Destroy();
 }

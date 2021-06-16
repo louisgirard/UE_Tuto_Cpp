@@ -35,6 +35,7 @@ void APawnBase::RotateTurret(FVector target)
 void APawnBase::Fire()
 {
 	// Fire projectile
+	UE_LOG(LogTemp, Warning, TEXT("%s fired a projectile"), *GetName());
 }
 
 void APawnBase::Destruction()

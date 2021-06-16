@@ -30,6 +30,8 @@ private:
 	FVector MoveDirection;
 	FQuat RotationDirection;
 
+	APlayerController* PlayerController;
+
 	void CalculateMoveDirection(float value);
 	void CalculateRotationDirection(float value);
 
@@ -48,4 +50,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void Destruction() override;
 };
