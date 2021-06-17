@@ -25,8 +25,10 @@ private:
 	float Damage = 10.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
-	float ProjectileSpeed = 1200.f;
+	float ProjectileSpeed = 2000.f;
 
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 public:	
 	// Sets default values for this actor's properties
 	AProjectileBase();
