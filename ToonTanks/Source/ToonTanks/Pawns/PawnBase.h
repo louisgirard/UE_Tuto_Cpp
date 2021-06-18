@@ -40,6 +40,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	USoundBase* DestructionSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	TSubclassOf<UCameraShake> ExplosionShake;
+
 public:
 	// Sets default values for this pawn's properties
 	APawnBase();

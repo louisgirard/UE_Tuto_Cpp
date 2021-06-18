@@ -56,5 +56,6 @@ void APawnBase::Destruction()
 {
 	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation());
 	UGameplayStatics::PlaySoundAtLocation(this, DestructionSound, GetActorLocation());
+	GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(ExplosionShake);
 }
 

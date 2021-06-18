@@ -41,6 +41,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	USoundBase* LaunchSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	TSubclassOf<UCameraShake> HitShake;
+
 	// Functions
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
