@@ -31,6 +31,8 @@ AProjectileBase::AProjectileBase()
 void AProjectileBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation());
 }
 
 void AProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -38,6 +40,7 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	if (!GetOwner() || !OtherActor || OtherActor == this || OtherActor == GetOwner()) return;
 
 	UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
 
 	UGameplayStatics::ApplyDamage(OtherActor, Damage, OtherActor->GetInstigatorController(), this, DamageType);
 

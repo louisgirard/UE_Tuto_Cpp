@@ -55,5 +55,6 @@ void APawnBase::Fire()
 void APawnBase::Destruction()
 {
 	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(this, DestructionSound, GetActorLocation());
 }
 
