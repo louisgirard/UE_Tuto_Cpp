@@ -15,6 +15,7 @@ class TOONTANKS_API ATankGameModeBase : public AGameModeBase
 private:
 	class APawnTank* PlayerTank;
 	int NumberOfTurrets = 0;
+	class APlayerControllerBase* PlayerController;
 
 	void HandleGameStart();
 	void HandleGameOver(bool playerWon);
