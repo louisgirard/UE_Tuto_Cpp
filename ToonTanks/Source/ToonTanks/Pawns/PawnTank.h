@@ -31,6 +31,7 @@ private:
 	FQuat RotationDirection;
 
 	APlayerController* PlayerController;
+	bool IsPlayerAlive = true;
 
 	void CalculateMoveDirection(float value);
 	void CalculateRotationDirection(float value);
@@ -48,6 +49,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual void Destruction() override;
+
+	bool GetIsPlayerAlive() { return IsPlayerAlive; }
 
 protected:
 	// Called when the game starts or when spawned

@@ -34,7 +34,7 @@ void APawnTurret::Tick(float DeltaTime)
 
 void APawnTurret::CheckTargetInRange()
 {
-	if (!PawnTank) return;
+	if (!PawnTank || !PawnTank->GetIsPlayerAlive()) return;
 
 	float distanceWithTarget = FVector::DistXY(GetActorLocation(), PawnTank->GetActorLocation());
 	
