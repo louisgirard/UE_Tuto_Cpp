@@ -18,6 +18,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	class UParticleSystem* ShootParticles;
+
 public:	
 	// Sets default values for this actor's properties
 	AGun();
