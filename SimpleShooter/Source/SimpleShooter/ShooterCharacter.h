@@ -22,6 +22,8 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
+	void Fire();
+
 public:
 	// Sets default values for this character's properties
 	AShooterCharacter();
