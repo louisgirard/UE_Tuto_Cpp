@@ -19,9 +19,10 @@ private:
 
 	AGun* Gun;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float MaxHealth = 100.f;
 
+	UPROPERTY(VisibleAnywhere, Category = "Health")
 	float CurrentHealth;
 
 	void MoveForward(float AxisValue);

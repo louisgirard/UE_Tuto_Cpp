@@ -66,10 +66,12 @@ void AShooterCharacter::Fire()
 
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
-	CurrentHealth = FMath::Clamp(CurrentHealth - DamageAmount, 0.f, MaxHealth);
+	float damageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	damageToApply = FMath::Min(CurrentHealth, damageToApply);
+	CurrentHealth -= damageToApply;
 
 	UE_LOG(LogTemp, Warning, TEXT("%s health = %f"), *GetName(), CurrentHealth);
 
-	return 0.0f;
+	return damageToApply;
 }
 
