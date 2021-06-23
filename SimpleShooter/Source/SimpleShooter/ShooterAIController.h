@@ -14,10 +14,16 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 {
 	GENERATED_BODY()
 	
+private:
+	APawn* PlayerPawn;
+
 public:
 	AShooterAIController();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };

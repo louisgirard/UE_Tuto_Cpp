@@ -13,6 +13,18 @@ AShooterAIController::AShooterAIController()
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	APawn* playerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	SetFocus(playerPawn);
+
+	// AI look at player
+	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	SetFocus(PlayerPawn);
+}
+
+// Called every frame
+void AShooterAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	// AI follow player
+	MoveToActor(PlayerPawn, 200);
+
 }
