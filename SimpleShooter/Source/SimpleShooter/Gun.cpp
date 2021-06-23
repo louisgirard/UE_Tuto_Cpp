@@ -5,6 +5,8 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Particles/ParticleSystem.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
+#include "GameFramework/Controller.h"
 
 // Sets default values
 AGun::AGun()
@@ -38,4 +40,17 @@ void AGun::PullTrigger()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Pull trigger"));
 	UGameplayStatics::SpawnEmitterAttached(ShootParticles, GunMesh, "MuzzleFlashSocket");
+
+	FVector cameraLocation;
+	FRotator cameraRotation;
+	GetOwner()->GetInstigatorController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+
+	FVector endPoint = cameraLocation + cameraRotation.Vector() * MaxRange;
+
+	FHitResult hit;
+	if (GetWorld()->LineTraceSingleByChannel(hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1))
+	{
+		DrawDebugPoint(GetWorld(), hit.Location, 10.f, FColor::Red, true);
+	}
+
 }

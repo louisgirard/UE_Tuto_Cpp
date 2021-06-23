@@ -12,6 +12,7 @@ class SIMPLESHOOTER_API AGun : public AActor
 	GENERATED_BODY()
 	
 private:
+	//Components
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USkeletalMeshComponent* GunMesh;
 
@@ -20,6 +21,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	class UParticleSystem* ShootParticles;
+
+	//Variables
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 1000.f;
 
 public:	
 	// Sets default values for this actor's properties
