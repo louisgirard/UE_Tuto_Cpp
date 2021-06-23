@@ -22,6 +22,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	class UParticleSystem* ShootParticles;
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	class UParticleSystem* HitParticles;
+
 	//Variables
 	UPROPERTY(EditAnywhere)
 	float MaxRange = 1000.f;

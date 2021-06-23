@@ -38,7 +38,6 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::PullTrigger()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Pull trigger"));
 	UGameplayStatics::SpawnEmitterAttached(ShootParticles, GunMesh, "MuzzleFlashSocket");
 
 	FVector cameraLocation;
@@ -50,7 +49,8 @@ void AGun::PullTrigger()
 	FHitResult hit;
 	if (GetWorld()->LineTraceSingleByChannel(hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1))
 	{
-		DrawDebugPoint(GetWorld(), hit.Location, 10.f, FColor::Red, true);
+		FVector shotDirection = -cameraRotation.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ShootParticles, hit.Location, shotDirection.Rotation());
 	}
 
 }
