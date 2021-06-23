@@ -42,7 +42,8 @@ void AGun::PullTrigger()
 
 	FVector cameraLocation;
 	FRotator cameraRotation;
-	GetOwner()->GetInstigatorController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+	AController* playerController = GetOwner()->GetInstigatorController();
+	playerController->GetPlayerViewPoint(cameraLocation, cameraRotation);
 
 	FVector endPoint = cameraLocation + cameraRotation.Vector() * MaxRange;
 
@@ -50,7 +51,13 @@ void AGun::PullTrigger()
 	if (GetWorld()->LineTraceSingleByChannel(hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1))
 	{
 		FVector shotDirection = -cameraRotation.Vector();
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ShootParticles, hit.Location, shotDirection.Rotation());
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, hit.Location, shotDirection.Rotation());
+
+		if (hit.GetActor())
+		{
+			FPointDamageEvent damageEvent(Damage, hit, shotDirection, nullptr);
+			hit.GetActor()->TakeDamage(Damage, damageEvent, playerController, this);
+		}
 	}
 
 }
