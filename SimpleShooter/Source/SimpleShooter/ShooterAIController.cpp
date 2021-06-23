@@ -7,10 +7,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-AShooterAIController::AShooterAIController()
-{
-}
-
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,7 +29,7 @@ void AShooterAIController::Tick(float DeltaTime)
 	if (LineOfSightTo(PlayerPawn))
 	{
 		Blackboard->SetValueAsVector("PlayerLocation", PlayerPawn->GetActorLocation());
-		Blackboard->SetValueAsVector("LastKnowPlayerLocation", PlayerPawn->GetActorLocation());
+		Blackboard->SetValueAsVector("LastKnownPlayerLocation", PlayerPawn->GetActorLocation());
 	}
 	else
 	{
