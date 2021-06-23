@@ -30,16 +30,14 @@ void AShooterAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// AI follow player
-	/*if (LineOfSightTo(PlayerPawn))
+	if (LineOfSightTo(PlayerPawn))
 	{
-		SetFocus(PlayerPawn);
-		MoveToActor(PlayerPawn, AcceptanceRadius);
+		Blackboard->SetValueAsVector("PlayerLocation", PlayerPawn->GetActorLocation());
+		Blackboard->SetValueAsVector("LastKnowPlayerLocation", PlayerPawn->GetActorLocation());
 	}
 	else
 	{
-		ClearFocus(EAIFocusPriority::Gameplay);
-		StopMovement();
-	}*/
+		Blackboard->ClearValue("PlayerLocation");
+	}
 
 }
