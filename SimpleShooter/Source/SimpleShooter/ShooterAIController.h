@@ -17,6 +17,11 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 private:
 	APawn* PlayerPawn;
 
+	UPROPERTY(EditAnywhere)
+	UBehaviorTree* AIBehavior;
+
+	UBlackboardComponent* Blackboard;
+
 public:
 	AShooterAIController();
 

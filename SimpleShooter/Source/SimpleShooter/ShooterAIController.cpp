@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "Gameframework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 AShooterAIController::AShooterAIController()
 {
@@ -13,10 +14,15 @@ AShooterAIController::AShooterAIController()
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// AI look at player
 	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	SetFocus(PlayerPawn);
+
+	if (AIBehavior)
+	{
+		RunBehaviorTree(AIBehavior);
+		Blackboard = GetBlackboardComponent();
+		Blackboard->SetValueAsVector("PlayerLocation", PlayerPawn->GetActorLocation());
+		Blackboard->SetValueAsVector("StartLocation", GetPawn()->GetActorLocation());
+	}
 }
 
 // Called every frame
@@ -25,6 +31,15 @@ void AShooterAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// AI follow player
-	MoveToActor(PlayerPawn, 200);
+	/*if (LineOfSightTo(PlayerPawn))
+	{
+		SetFocus(PlayerPawn);
+		MoveToActor(PlayerPawn, AcceptanceRadius);
+	}
+	else
+	{
+		ClearFocus(EAIFocusPriority::Gameplay);
+		StopMovement();
+	}*/
 
 }
