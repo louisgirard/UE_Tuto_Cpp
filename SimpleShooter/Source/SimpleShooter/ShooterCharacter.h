@@ -28,8 +28,6 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
-	void Fire();
-
 public:
 	// Sets default values for this character's properties
 	AShooterCharacter();
@@ -41,6 +39,8 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const { return CurrentHealth <= 0; }
+
+	void Fire();
 
 protected:
 	// Called when the game starts or when spawned

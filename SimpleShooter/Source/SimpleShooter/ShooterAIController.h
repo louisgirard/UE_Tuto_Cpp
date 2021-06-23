@@ -15,12 +15,8 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 	GENERATED_BODY()
 	
 private:
-	APawn* PlayerPawn;
-
 	UPROPERTY(EditAnywhere)
 	UBehaviorTree* AIBehavior;
-
-	UBlackboardComponent* Blackboard;
 
 protected:
 	// Called when the game starts or when spawned
