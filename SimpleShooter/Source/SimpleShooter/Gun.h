@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "Gun.generated.h"
 
+class UParticleSystem;
+class USoundBase;
+
 UCLASS()
 class SIMPLESHOOTER_API AGun : public AActor
 {
@@ -20,10 +23,16 @@ private:
 	USceneComponent* Root;
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
-	class UParticleSystem* ShootParticles;
+	UParticleSystem* ShootParticles;
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
-	class UParticleSystem* HitParticles;
+	UParticleSystem* HitParticles;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase* ShootSound;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase* HitSound;
 
 	//Variables
 	UPROPERTY(EditAnywhere)
@@ -31,6 +40,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 10.f;
+
+	//Functions
+	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
 
 public:	
 	// Sets default values for this actor's properties

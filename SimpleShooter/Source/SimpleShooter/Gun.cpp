@@ -8,6 +8,7 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Controller.h"
 
+
 // Sets default values
 AGun::AGun()
 {
@@ -39,31 +40,38 @@ void AGun::Tick(float DeltaTime)
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(ShootParticles, GunMesh, "MuzzleFlashSocket");
-
-	FVector cameraLocation;
-	FRotator cameraRotation;
-	AController* playerController = GetOwner()->GetInstigatorController();
-
-	if (!playerController) return;
-
-	playerController->GetPlayerViewPoint(cameraLocation, cameraRotation);
-
-	FVector endPoint = cameraLocation + cameraRotation.Vector() * MaxRange;
+	UGameplayStatics::SpawnSoundAttached(ShootSound, GunMesh, "MuzzleFlashSocket");
 
 	FHitResult hit;
-	FCollisionQueryParams params;
-	params.AddIgnoredActor(this);
-	params.AddIgnoredActor(GetOwner());
-	if (GetWorld()->LineTraceSingleByChannel(hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1, params))
+	FVector shotDirection;
+	if (GunTrace(hit, shotDirection))
 	{
-		FVector shotDirection = -cameraRotation.Vector();
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, hit.Location, shotDirection.Rotation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), HitSound, hit.Location);
 
 		if (hit.GetActor())
 		{
 			FPointDamageEvent damageEvent(Damage, hit, shotDirection, nullptr);
-			hit.GetActor()->TakeDamage(Damage, damageEvent, playerController, this);
+			hit.GetActor()->TakeDamage(Damage, damageEvent, GetOwner()->GetInstigatorController(), this);
 		}
 	}
+}
 
+bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
+{
+	FVector cameraLocation;
+	FRotator cameraRotation;
+	AController* playerController = GetOwner()->GetInstigatorController();
+
+	if (!playerController) return false;
+
+	playerController->GetPlayerViewPoint(cameraLocation, cameraRotation);
+	ShotDirection = -cameraRotation.Vector();
+
+	FVector endPoint = cameraLocation + cameraRotation.Vector() * MaxRange;
+
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+	params.AddIgnoredActor(GetOwner());
+	return GetWorld()->LineTraceSingleByChannel(Hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1, params);
 }
