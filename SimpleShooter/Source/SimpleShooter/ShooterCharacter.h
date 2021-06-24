@@ -47,7 +47,10 @@ public:
 
 	void Fire();
 
+	UFUNCTION(BlueprintPure)
 	AGun* GetCurrentGun() { return CurrentGunIndex >= Guns.Num() ? nullptr : Guns[CurrentGunIndex]; }
+
+	void AddAmmo(int AmmoAmount, TSubclassOf<AGun> GunType);
 
 protected:
 	// Called when the game starts or when spawned

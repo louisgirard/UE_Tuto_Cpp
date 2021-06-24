@@ -41,8 +41,9 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::PullTrigger()
 {
-	if (ShotTimer < DelayBetweenShots) return;
+	if (ShotTimer < DelayBetweenShots || Ammo == 0) return;
 	ShotTimer = 0;
+	Ammo = FMath::Clamp(Ammo - 1, 0, 100);
 
 	UGameplayStatics::SpawnEmitterAttached(ShootParticles, GunMesh, "MuzzleFlashSocket");
 	UGameplayStatics::SpawnSoundAttached(ShootSound, GunMesh, "MuzzleFlashSocket");
@@ -79,4 +80,9 @@ bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 	params.AddIgnoredActor(this);
 	params.AddIgnoredActor(GetOwner());
 	return GetWorld()->LineTraceSingleByChannel(Hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1, params);
+}
+
+void AGun::AddAmmo(int AmmoAmount)
+{
+	Ammo += AmmoAmount;
 }

@@ -99,6 +99,17 @@ void AShooterCharacter::ChangeWeaponDown()
 	Guns[CurrentGunIndex]->SetActorHiddenInGame(false);
 }
 
+void AShooterCharacter::AddAmmo(int AmmoAmount, TSubclassOf<AGun> GunType)
+{
+	for (AGun* gun : Guns)
+	{
+		if (gun->GetClass() == GunType)
+		{
+			gun->AddAmmo(AmmoAmount);
+		}
+	}
+}
+
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	float damageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);

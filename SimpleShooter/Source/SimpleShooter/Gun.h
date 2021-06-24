@@ -46,6 +46,9 @@ private:
 
 	float ShotTimer;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	int Ammo = 30;
+
 	//Functions
 	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
 
@@ -56,6 +59,8 @@ public:
 	void PullTrigger();
 
 	float GetShotDelay() { return DelayBetweenShots; }
+
+	void AddAmmo(int AmmoAmount);
 
 protected:
 	// Called when the game starts or when spawned
