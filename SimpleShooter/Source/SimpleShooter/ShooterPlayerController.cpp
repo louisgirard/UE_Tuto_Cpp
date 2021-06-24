@@ -9,9 +9,10 @@
 void AShooterPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)
 {
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
-	ASimpleShooterGameModeBase* gameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 
 	FTimerHandle restartHandle;
 	FTimerDelegate restartDelegate = FTimerDelegate::CreateUObject(this, &APlayerController::RestartLevel);
-	GetWorld()->GetTimerManager().SetTimer(restartHandle, restartDelegate, gameMode->GetRestartDelay(), false);
+	GetWorld()->GetTimerManager().SetTimer(restartHandle, restartDelegate, RestartDelay, false);
+
+	GameOverUI(bIsWinner);
 }

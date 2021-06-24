@@ -21,7 +21,6 @@ void ASimpleShooterGameModeBase::PawnKilled(APawn* PawnKilled)
 	if (PlayerController == Cast<APlayerController>(PawnKilled->GetController()))
 	{
 		PlayerController->GameHasEnded(nullptr, false);
-		GameOver(false);
 	}
 	else if (AAIController* aiController = Cast<AAIController>(PawnKilled->GetController()))
 	{
@@ -29,7 +28,6 @@ void ASimpleShooterGameModeBase::PawnKilled(APawn* PawnKilled)
 		if (NumberOfEnemies == 0)
 		{
 			PlayerController->GameHasEnded(aiController, true);
-			GameOver(true);
 		}
 	}
 }
