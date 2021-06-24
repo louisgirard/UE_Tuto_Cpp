@@ -21,12 +21,8 @@ AShooterCharacter::AShooterCharacter()
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	Gun = GetWorld()->SpawnActor<AGun>(GunType);
-	GetMesh()->HideBoneByName("weapon_r", EPhysBodyOp::PBO_None);
 
-	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, "WeaponSocket");
-	Gun->SetOwner(this);
+	SpawnWeapons();
 
 	CurrentHealth = MaxHealth;
 }
@@ -50,6 +46,24 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AShooterCharacter::Jump);
+	PlayerInputComponent->BindAction("ChangeWeaponUp", IE_Pressed, this, &AShooterCharacter::ChangeWeaponUp);
+	PlayerInputComponent->BindAction("ChangeWeaponDown", IE_Pressed, this, &AShooterCharacter::ChangeWeaponDown);
+}
+
+void AShooterCharacter::SpawnWeapons()
+{
+	GetMesh()->HideBoneByName("weapon_r", EPhysBodyOp::PBO_None);
+
+	for (int i = 0; i < GunTypes.Num(); i++)
+	{
+		AGun* gun = GetWorld()->SpawnActor<AGun>(GunTypes[i]);
+		gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, "WeaponSocket");
+		gun->SetOwner(this);
+		gun->SetActorHiddenInGame(true);
+		Guns.Add(gun);
+	}
+
+	Guns[0]->SetActorHiddenInGame(false);
 }
 
 void AShooterCharacter::MoveForward(float AxisValue)
@@ -64,7 +78,25 @@ void AShooterCharacter::MoveRight(float AxisValue)
 
 void AShooterCharacter::Fire()
 {
-	Gun->PullTrigger();
+	Guns[CurrentGunIndex]->PullTrigger();
+}
+
+void AShooterCharacter::ChangeWeaponUp()
+{
+	Guns[CurrentGunIndex]->SetActorHiddenInGame(true);
+	CurrentGunIndex = (CurrentGunIndex + 1) % Guns.Num();
+	Guns[CurrentGunIndex]->SetActorHiddenInGame(false);
+}
+
+void AShooterCharacter::ChangeWeaponDown()
+{
+	Guns[CurrentGunIndex]->SetActorHiddenInGame(true);
+	CurrentGunIndex--;
+	if (CurrentGunIndex < 0)
+	{
+		CurrentGunIndex = Guns.Num() - 1;
+	}
+	Guns[CurrentGunIndex]->SetActorHiddenInGame(false);
 }
 
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)

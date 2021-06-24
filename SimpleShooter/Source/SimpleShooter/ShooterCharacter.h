@@ -15,9 +15,11 @@ class SIMPLESHOOTER_API AShooterCharacter : public ACharacter
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<AGun> GunType;
+	TArray<TSubclassOf<AGun>> GunTypes;
 
-	AGun* Gun;
+	TArray<AGun*> Guns;
+
+	int CurrentGunIndex = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Health", meta = (AllowPrivateAccess = "true"))
 	float MaxHealth = 100.f;
@@ -25,8 +27,11 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health", meta = (AllowPrivateAccess = "true"))
 	float CurrentHealth;
 
+	void SpawnWeapons();
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
+	void ChangeWeaponUp();
+	void ChangeWeaponDown();
 
 public:
 	// Sets default values for this character's properties
