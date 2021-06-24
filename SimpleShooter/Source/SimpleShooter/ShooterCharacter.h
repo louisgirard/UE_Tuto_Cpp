@@ -47,6 +47,8 @@ public:
 
 	void Fire();
 
+	AGun* GetCurrentGun() { return CurrentGunIndex >= Guns.Num() ? nullptr : Guns[CurrentGunIndex]; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -6,12 +6,15 @@
 #include "Gameframework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "ShooterCharacter.h"
+#include "Gun.h"
 
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
 	APawn* playerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	ShooterCharacter = Cast<AShooterCharacter>(GetPawn());
 
 	if (AIBehavior)
 	{
@@ -24,4 +27,9 @@ void AShooterAIController::BeginPlay()
 void AShooterAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (ShooterCharacter->GetCurrentGun())
+	{
+		GetBlackboardComponent()->SetValueAsFloat("GunShotDelay", ShooterCharacter->GetCurrentGun()->GetShotDelay());
+	}
 }

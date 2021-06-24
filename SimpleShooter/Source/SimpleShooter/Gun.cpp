@@ -28,6 +28,7 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	ShotTimer = DelayBetweenShots;
 }
 
 // Called every frame
@@ -35,10 +36,14 @@ void AGun::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	ShotTimer += DeltaTime;
 }
 
 void AGun::PullTrigger()
 {
+	if (ShotTimer < DelayBetweenShots) return;
+	ShotTimer = 0;
+
 	UGameplayStatics::SpawnEmitterAttached(ShootParticles, GunMesh, "MuzzleFlashSocket");
 	UGameplayStatics::SpawnSoundAttached(ShootSound, GunMesh, "MuzzleFlashSocket");
 

@@ -18,6 +18,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	UBehaviorTree* AIBehavior;
 
+	class AShooterCharacter* ShooterCharacter;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

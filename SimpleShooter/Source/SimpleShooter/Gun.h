@@ -41,6 +41,11 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Damage = 10.f;
 
+	UPROPERTY(EditAnywhere)
+	float DelayBetweenShots = 1.f;
+
+	float ShotTimer;
+
 	//Functions
 	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
 
@@ -49,6 +54,8 @@ public:
 	AGun();
 
 	void PullTrigger();
+
+	float GetShotDelay() { return DelayBetweenShots; }
 
 protected:
 	// Called when the game starts or when spawned
