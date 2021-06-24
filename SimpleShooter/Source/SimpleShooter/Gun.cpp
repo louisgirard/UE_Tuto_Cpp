@@ -43,12 +43,18 @@ void AGun::PullTrigger()
 	FVector cameraLocation;
 	FRotator cameraRotation;
 	AController* playerController = GetOwner()->GetInstigatorController();
+
+	if (!playerController) return;
+
 	playerController->GetPlayerViewPoint(cameraLocation, cameraRotation);
 
 	FVector endPoint = cameraLocation + cameraRotation.Vector() * MaxRange;
 
 	FHitResult hit;
-	if (GetWorld()->LineTraceSingleByChannel(hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1))
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+	params.AddIgnoredActor(GetOwner());
+	if (GetWorld()->LineTraceSingleByChannel(hit, cameraLocation, endPoint, ECollisionChannel::ECC_GameTraceChannel1, params))
 	{
 		FVector shotDirection = -cameraRotation.Vector();
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, hit.Location, shotDirection.Rotation());

@@ -4,6 +4,7 @@
 #include "ShooterCharacter.h"
 #include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Engine/World.h"
 #include "Gun.h"
 
@@ -69,6 +70,12 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	float damageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	damageToApply = FMath::Min(CurrentHealth, damageToApply);
 	CurrentHealth -= damageToApply;
+
+	if (IsDead())
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 
 	return damageToApply;
 }
